@@ -9,7 +9,7 @@ file to know if the theme is a dark or a light theme. If the theme file does
 not contain this value, it will be put under the 'Misc' sub-menu.  
 
 ### Screenshots
-[Click]()
+[Click](http://imgur.com/a/wwXjm)
 
 
 ## Requirements
@@ -33,13 +33,23 @@ By default, the Edit > Color Schemes menu will be replaced.
 
 * `g:PaletteMenuStruct` ( Default : "P&lugins.&Palette" )  
    When `g:PaletteUseEditMenu` is set to 0, a new menu will be created instead.
-   The location of the menu can be specified using this variable. For detils, type
+   The location of the menu can be specified using this variable. For details, type
 ````
    :h usr_42.txt
 ````
 
-* `g:PaletteColorsDir` ( Default : [ "~/.vim/colors" ] )
+* `g:PaletteColorsDir` ( Default : [ "$HOME/.vim/colors" ] )  
    By default, vim-palette searches for colorschemes in ~/.vim/colors directory.
    Change this variable to change the location to search for. If multiple
    locations are specified, it will search each one. Note that this variable
    must be an array.  
+
+* `g:PaletteColorsDefault` ( Default : [ "$VIMRUNTIME/colors" ] )  
+   Directory containing the default colorschemes. As above, must be an array.  
+
+* `g:PaletteClassifyDefaults` ( Default : 0 )  
+   Should the default colorschemes be classified as dark or light?  
+
+
+## ToDo
+* If the theme file does not contain "set bg=" setting, put under new 'Misc' sub-menu.  

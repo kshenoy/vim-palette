@@ -7,11 +7,10 @@
 " sub-menus and categorizes the colorschemes accordingly.  
 "
 " Note, this plugin depends upon `set background` being set inside the theme
-" file to know if the theme is a dark or a light theme. If the theme file does
-" not contain this value, it will be put under the 'Misc' sub-menu.  
+" file to know if the theme is a dark or a light theme.
 "
 " ### Screenshots
-" [Click]()
+" [Click](http://imgur.com/a/wwXjm)
 "
 "
 " Requirements:       {{{2
@@ -35,15 +34,28 @@
 "
 " * `g:PaletteMenuStruct` ( Default : "P&lugins.&Palette" )  
 "    When `g:PaletteUseEditMenu` is set to 0, a new menu will be created instead.
-"    The location of the menu can be specified using this variable.  
+"    The location of the menu can be specified using this variable. For details, type 
+" ````
+"    :h usr_42.txt
+" ````
 "
-" * `g:PaletteColorsDir` ( Default : [ "~/.vim/colors" ] )
+" * `g:PaletteColorsDir` ( Default : [ "$HOME/.vim/colors" ] )
 "    By default, vim-palette searches for colorschemes in ~/.vim/colors directory.
 "    Change this variable to change the location to search for. If multiple
 "    locations are specified, it will search each one. Note that this variable
 "    must be an array.  
 "
+" * `g:PaletteColorsDefault` ( Default : [ "$VIMRUNTIME/colors" ] )
+"    Directory containing the default colorschemes. As above, must be an array.  
 "
+" * `g:PaletteClassifyDefaults` ( Default : 0 )
+"    Should the default colorschemes be classified as dark or light?
+"
+"
+" ToDo: "             {{{2
+" * If the theme file does not contain "set bg=" setting, put under new 'Misc' sub-menu.  
+
+
 " Maintainer:         {{{2
 "   Kartik Shenoy
 " 
@@ -51,6 +63,7 @@
 "   2012-07-25:
 "     - Created
 "
+" }}}1
 "===============================================================================
 
 " Exit when app has already been loaded (or "compatible" mode set)
@@ -64,8 +77,9 @@ set cpo&vim
 
 " Initialize variables
 if !exists('g:PaletteUseEditMenu')
-  let g:PaletteUseEditMenu = 0
+  let g:PaletteUseEditMenu = 1
 endif
+
 if !exists('g:PaletteMenuStruct')
   if g:PaletteUseEditMenu
     let g:PaletteMenuStruct = '20.440 Edit.C&olor\ Scheme'
@@ -73,8 +87,17 @@ if !exists('g:PaletteMenuStruct')
     let g:PaletteMenuStruct = 'P&lugins.&Palette'
   endif
 endif
+
+if !exists('g:PaletteColorsDefault')
+  let g:PaletteColorsDefault = [ "$VIMRUNTIME/colors" ]
+endif
+
 if !exists('g:PaletteColorsDir')
-  let g:PaletteColorsDir = [ "~/.vim/colors" ]
+  let g:PaletteColorsDir = [ "$HOME/.vim/colors" ]
+endif
+
+if !exists('g:PaletteClassifyDefaults')
+  let g:PaletteClassifyDefaults = 0
 endif
 
 
@@ -84,58 +107,33 @@ if g:PaletteUseEditMenu
 endif
 
 
-" Default schemes
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Blue :colo blue<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.DarkBlue :colo darkblue<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Default :colo default<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Delek :colo delek<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Desert :colo desert<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.ElfLord :colo elflord<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Evening :colo evening<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Koehler :colo koehler<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Morning :colo morning<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Murphy :colo murphy<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Pablo :colo pablo<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.PeachPuff :colo peachpuff<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Ron :colo ron<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Shine :colo shine<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Slate :colo slate<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Torte :colo torte<CR>'
-exec 'amenu ' . g:PaletteMenuStruct . '.D&efault.Zellner :colo zellner<CR>'
+" Extract themes from locations and create menu
+function! s:MakeMenu(search, type, loc_arr)
+  let l:themes = []
+  for l:loc in a:loc_arr
+    let l:sys_out = system('\grep -P "set\s+(background|bg)\s*=\s*' . a:search . '" ' . l:loc . '/*.vim')
+    call sort(extend(l:themes, split(l:sys_out, '\n')))
+  endfor
+  for l:theme in l:themes
+    let l:theme = split(l:theme, ':')[0]
+    let l:theme = split(l:theme, '/')[-1]
+    let l:theme = substitute(l:theme, '\.vim$', "", "")
+    exec 'amenu ' . g:PaletteMenuStruct . '.' . a:type . '.' . l:theme . ' :colo ' . l:theme . '<CR>'
+  endfor
+endfunction
 
+
+if g:PaletteClassifyDefaults
+  let s:PaletteColorsDir = g:PaletteColorsDir + g:PaletteColorsDefault
+else
+  let s:PaletteColorsDir = g:PaletteColorsDir
+endif
+
+
+call s:MakeMenu("", "D&efault", g:PaletteColorsDefault)
 exec 'amenu ' . g:PaletteMenuStruct . '.-s1- :'
-
-
-" Dark Themes
-let s:dark_themes = []
-for s:loc in g:PaletteColorsDir
-  let s:sys_out     = system('\grep -P "set\s+background\s*=\s*dark" ' . s:loc . '/*')
-  let s:dark_themes = sort(extend(s:dark_themes, split(s:sys_out, '\n')))
-  let s:sys_out     = system('\grep -P "set\s+bg\s*=\s*dark" ' . s:loc . '/*')
-  let s:dark_themes = sort(extend(s:dark_themes, split(s:sys_out, '\n')))
-endfor
-for s:theme in s:dark_themes
-  let s:theme = split(s:theme, ':')[0]
-  let s:theme = split(s:theme, '/')[-1]
-  let s:theme = substitute(s:theme, '\.vim$', "", "")
-  exec 'amenu ' . g:PaletteMenuStruct . '.&Dark.' . s:theme . ' :colo ' . s:theme . '<CR>'
-endfor
-
-
-" Light Themes
-let s:light_themes = []
-for s:loc in g:PaletteColorsDir
-  let s:sys_out      = system('\grep -P "set\s+background\s*=\s*light" ' . s:loc . '/*')
-  let s:light_themes = sort(extend(s:light_themes, split(s:sys_out, '\n')))
-  let s:sys_out      = system('\grep -P "set\s+bg\s*=\s*light" ' . s:loc . '/*')
-  let s:light_themes = sort(extend(s:light_themes, split(s:sys_out, '\n')))
-endfor
-for s:theme in s:light_themes
-  let s:theme = split(s:theme, ':')[0]
-  let s:theme = split(s:theme, '/')[-1]
-  let s:theme = substitute(s:theme, '\.vim$', "", "")
-  exec 'amenu ' . g:PaletteMenuStruct . '.&Light.' . s:theme . ' :colo ' . s:theme . '<CR>'
-endfor
+call s:MakeMenu("dark", "&Dark", s:PaletteColorsDir)
+call s:MakeMenu("light", "&Light", s:PaletteColorsDir)
 
 
 
