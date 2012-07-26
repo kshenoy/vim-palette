@@ -1,12 +1,8 @@
 # vim-palette
 
-vim-palette is a simple plugin to enhance the manner in which colorschemes
-are displayed in the Edit menu. It creates 'Default', 'Dark' and 'Light' 
-sub-menus and categorizes the colorschemes accordingly.  
-
-Note, this plugin depends upon `set background` being set inside the theme
-file to know if the theme is a dark or a light theme. If the theme file does
-not contain this value, it will be put under the 'Misc' sub-menu.  
+vim-palette is a simple plugin to enhance the manner in which colorschemes are displayed in the Edit menu.  
+It creates 'Default', 'Dark' and 'Light' sub-menus and categorizes the colorschemes accordingly.  
+Note, this plugin depends upon `set background` being set inside the theme file to know if the theme is a dark or a light theme.
 
 ### Screenshots
 [Click](http://imgur.com/a/wwXjm)
@@ -27,22 +23,21 @@ download and unzip it to your ~/.vim directory. You know how it goes...
 By default, the Edit > Color Schemes menu will be replaced.  
 
 * `g:PaletteUseEditMenu` ( Default : 1 )  
-   Set this to 0 to preserve the original Color Schemes menu and instead create
-   a new one. The new menu will be created as Plugins > Palette if
-   g:PaletteMenuStruct is not defined.  
+   Set this to 0 to preserve the original Color Schemes menu and instead create a new one.  
+   The new menu will be created as Plugins > Palette if `g:PaletteMenuStruct` is not defined.  
 
 * `g:PaletteMenuStruct` ( Default : "P&lugins.&Palette" )  
-   When `g:PaletteUseEditMenu` is set to 0, a new menu will be created instead.
+   When `g:PaletteUseEditMenu` is set to 0, a new menu will be created instead.  
    The location of the menu can be specified using this variable. For details, type
 ````
    :h usr_42.txt
 ````
 
 * `g:PaletteColorsDir` ( Default : [ "$HOME/.vim/colors" ] )  
-   By default, vim-palette searches for colorschemes in ~/.vim/colors directory.
-   Change this variable to change the location to search for. If multiple
-   locations are specified, it will search each one. Note that this variable
-   must be an array.  
+   By default, vim-palette searches for colorschemes in ~/.vim/colors directory.  
+   Change this variable to change the location to search for. 
+   If multiple locations are specified, it will search each one.  
+   Note that this variable must be an array.  
 
 * `g:PaletteColorsDefault` ( Default : [ "$VIMRUNTIME/colors" ] )  
    Directory containing the default colorschemes. As above, must be an array.  
@@ -52,4 +47,4 @@ By default, the Edit > Color Schemes menu will be replaced.
 
 
 ## ToDo
-* If the theme file does not contain "set bg=" setting, put under new 'Misc' sub-menu.  
+* If the theme file does not contain `set bg=` setting, put under new 'Misc' sub-menu.  
