@@ -7,20 +7,19 @@
 " sub-menus and categorizes the colorschemes accordingly.  
 "
 " Note, this plugin depends upon `set background` being set inside the theme
-" file to know if the theme is a dark or a light theme.
+" file to recognize if the theme is a dark or a light theme.
 "
 " ### Screenshots
 " [Click](http://imgur.com/a/wwXjm)
 "
 "
 " Requirements:       {{{2
-" Currently, vim-palette uses the grep and ls commands and thus, is limited to
-" platforms that support these instructions.  
+" Currently, vim-palette supports only unix and windows.
 "
 "
 " Installation:       {{{2
 " I highly recommend using Pathogen or Vundler to do the dirty work for you. If
-" for some reason, you do not want to use any of these excellent plugins, then
+" for some reason, you do not want to use any of these excellent plugin, then
 " download and unzip it to your ~/.vim directory. You know how it goes...  
 "
 "
@@ -29,10 +28,10 @@
 "
 " * `g:PaletteUseEditMenu` ( Default : 1 )  
 "    Set this to 0 to preserve the original Color Schemes menu and instead create
-"    a new one. The new menu will be created as Plugins > Palette if
+"    a new one. The new menu will be created as Plugin > Palette if
 "    g:PaletteMenuStruct is not defined.  
 "
-" * `g:PaletteMenuStruct` ( Default : "P&lugins.&Palette" )  
+" * `g:PaletteMenuStruct` ( Default : "P&lugin.&Palette" )  
 "    When `g:PaletteUseEditMenu` is set to 0, a new menu will be created instead.
 "    The location of the menu can be specified using this variable. For details, type 
 " ````
@@ -60,6 +59,9 @@
 "   Kartik Shenoy
 " 
 " Changelist:
+"   2012-07-27:
+"     - Added support for windows
+
 "   2012-07-25:
 "     - Created
 "
