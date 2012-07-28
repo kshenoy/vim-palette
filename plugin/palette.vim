@@ -70,6 +70,9 @@
 if exists("g:loaded_Palette") || &cp
   finish
 endif
+if !(has('unix') || has('win32'))
+  finish
+endif
 let g:loaded_Palette = "1.0"  " Version Number
 let s:save_cpo         = &cpo
 set cpo&vim
@@ -88,12 +91,32 @@ if !exists('g:PaletteMenuStruct')
   endif
 endif
 
+let s:home = substitute($HOME, '\', '\\\\', 'g')
+let s:vimp = substitute($VIM, '\', '\\\\', 'g')
+let s:vrtp = substitute($VIMRUNTIME, '\', '\\\\', 'g')
+
 if !exists('g:PaletteColorsDefault')
-  let g:PaletteColorsDefault = [ "$VIMRUNTIME/colors" ]
+  let g:PaletteColorsDefault = [ '$VIMRUNTIME/colors' ]
+endif
+if has('win32')
+  for i in range(0, len(g:PaletteColorsDefault)-1)
+    let g:PaletteColorsDefault[i] = substitute(g:PaletteColorsDefault[i], '/', '\\', 'g')
+    let g:PaletteColorsDefault[i] = substitute(g:PaletteColorsDefault[i], '$HOME', s:home, 'g')
+    let g:PaletteColorsDefault[i] = substitute(g:PaletteColorsDefault[i], '$VIMRUNTIME', s:vrtp, 'g')
+    let g:PaletteColorsDefault[i] = substitute(g:PaletteColorsDefault[i], '$VIM', s:vimp, 'g')
+  endfor
 endif
 
 if !exists('g:PaletteColorsDir')
-  let g:PaletteColorsDir = [ "$HOME/.vim/colors" ]
+  let g:PaletteColorsDir = [ '$HOME/.vim/colors' ]
+endif
+if has('win32')
+  for i in range(0, len(g:PaletteColorsDir)-1)
+    let g:PaletteColorsDir[i] = substitute(g:PaletteColorsDir[i], '/', '\\', 'g')
+    let g:PaletteColorsDir[i] = substitute(g:PaletteColorsDir[i], '$HOME', s:home, 'g')
+    let g:PaletteColorsDir[i] = substitute(g:PaletteColorsDir[i], '$VIMRUNTIME', s:vrtp, 'g')
+    let g:PaletteColorsDir[i] = substitute(g:PaletteColorsDir[i], '$VIM', s:vimp, 'g')
+  endfor
 endif
 
 if !exists('g:PaletteClassifyDefaults')
@@ -111,13 +134,25 @@ endif
 function! s:MakeMenu(search, type, loc_arr)
   let l:themes = []
   for l:loc in a:loc_arr
-    let l:sys_out = system('\grep -P "set\s+(background|bg)\s*=\s*' . a:search . '" ' . l:loc . '/*.vim')
-    call sort(extend(l:themes, split(l:sys_out, '\n')))
+    if has('unix')
+      let l:sys_out = system('\grep -P "set\s+(background|bg)\s*=\s*' . a:search . '" ' . l:loc . '/*.vim')
+      call sort(extend(l:themes, split(l:sys_out, '\n')))
+    elseif has('win32')
+      let l:sys_out = system('findstr /R /C:"set [ ]*background[ ]*=[ ]*' . a:search . '" ' . shellescape(l:loc) . '\*.vim')
+      call sort(extend(l:themes, split(l:sys_out, '\n')))
+      let l:sys_out = system('findstr /R /C:"set [ ]*bg[ ]*=[ ]*' . a:search . '" ' . shellescape(l:loc) . '\*.vim')
+      call sort(extend(l:themes, split(l:sys_out, '\n')))
+    endif
   endfor
   for l:theme in l:themes
-    let l:theme = split(l:theme, ':')[0]
-    let l:theme = split(l:theme, '/')[-1]
-    let l:theme = substitute(l:theme, '\.vim$', "", "")
+    if has('unix')
+      let l:theme = split(l:theme, ':')[0]
+      let l:theme = split(l:theme, '/')[-1]
+    elseif has('win32')
+      let l:theme = split(l:theme, ':')[1]
+      let l:theme = split(l:theme, '\')[-1]
+    endif
+    let l:theme = substitute(l:theme, '\.vim$', "", '')
     exec 'amenu ' . g:PaletteMenuStruct . '.' . a:type . '.' . l:theme . ' :colo ' . l:theme . '<CR>'
   endfor
 endfunction
