@@ -1,5 +1,5 @@
 " README:             {{{1
-" vim-palette, version 1.0
+" vim-palette, version 1.1
 " 
 " Description:        {{{2
 " vim-palette is a simple plugin to enhance the manner in which colorschemes
@@ -73,7 +73,7 @@ endif
 if !(has('unix') || has('win32'))
   finish
 endif
-let g:loaded_Palette = "1.0"  " Version Number
+let g:loaded_Palette = "1.1"  " Version Number
 let s:save_cpo         = &cpo
 set cpo&vim
 
@@ -87,7 +87,7 @@ if !exists('g:PaletteMenuStruct')
   if g:PaletteUseEditMenu
     let g:PaletteMenuStruct = '20.440 Edit.C&olor\ Scheme'
   else
-    let g:PaletteMenuStruct = 'P&lugins.&Palette'
+    let g:PaletteMenuStruct = 'P&lugin.&Palette'
   endif
 endif
 
