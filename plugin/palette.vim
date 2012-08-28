@@ -69,7 +69,7 @@
 "===============================================================================
 
 " Exit when app has already been loaded (or "compatible" mode set)
-if exists("g:loaded_Palette") || &cp
+if !has('gui_running') || exists("g:loaded_Palette") || &cp
   finish
 endif
 if !(has('unix') || has('win32'))
