@@ -1,0 +1,10 @@
+palette	palette.txt	/*palette*
+palette-contents	palette.txt	/*palette-contents*
+palette-contributing	palette.txt	/*palette-contributing*
+palette-customization	palette.txt	/*palette-customization*
+palette-intro	palette.txt	/*palette-intro*
+palette-license	palette.txt	/*palette-license*
+palette_ClassifyDefaults	palette.txt	/*palette_ClassifyDefaults*
+palette_ColorsDir	palette.txt	/*palette_ColorsDir*
+palette_MenuStruct	palette.txt	/*palette_MenuStruct*
+palette_UseEditMenu	palette.txt	/*palette_UseEditMenu*
