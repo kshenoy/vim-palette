@@ -1,11 +1,15 @@
+Please note that settings are now grouped under a g:Palette dictionary / hash.  
+Refer the [help](doc/palette.txt) on how to add/modify settings in your .vimrc  
+
 # vim-palette
 
 vim-palette is a simple plugin to enhance the manner in which colorschemes are displayed in the Edit menu.  
 It creates 'Default', 'Dark' and 'Light' sub-menus and categorizes the colorschemes accordingly.  
 Note, this plugin depends upon `set background` being used inside the theme file to recognize if the theme is a dark or a light theme.
 
-### Screenshots
-[Click](http://imgur.com/a/wwXjm)
+###### Categorizes the "Color Scheme" menu into Default, Dark and Light
+![Default](screens/default.png?raw=true)
+![Light](screens/light.png?raw=true)
 
 
 ## Requirements
@@ -20,7 +24,7 @@ download and unzip it to your ~/.vim directory. You know how it goes...
 
 ## Customization
 By default, the "Edit > Color Scheme" menu will be replaced and default colorschemes won't be classified.  
-To change these settings or for further details refer the [help]()
+To change these settings or for further details refer the [help](doc/palette.txt)
 
 
 ## ToDo
