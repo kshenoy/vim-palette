@@ -8,8 +8,9 @@ It creates 'Default', 'Dark' and 'Light' sub-menus and categorizes the colorsche
 Note, this plugin depends upon `set background` being used inside the theme file to recognize if the theme is a dark or a light theme.
 
 ###### Categorizes the "Color Scheme" menu into Default, Dark and Light
-![Default](screens/default.png?raw=true)
-![Light](screens/light.png?raw=true)
+![Default](https://github.com/kshenoy/vim-palette/blob/images/screens/default.png?raw=true)
+  
+![Light](https://github.com/kshenoy/vim-palette/blob/images/screens/light.png?raw=true)
 
 
 ## Requirements
